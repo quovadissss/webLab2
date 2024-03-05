@@ -29,6 +29,6 @@ public class Project {
     @Column(name ="end_date")
     @Temporal(TemporalType.DATE)
     private LocalDate end_data;
-    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Task> tasks;
 }

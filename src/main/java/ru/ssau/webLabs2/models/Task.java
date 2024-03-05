@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Task {
 
-    @ManyToOne(optional=false)
+    @ManyToOne(optional=false, fetch = FetchType.EAGER)
     @JoinColumn(name = "pr_id", referencedColumnName = "pr_id")
     private Project id;
     @Id
