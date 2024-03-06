@@ -27,8 +27,9 @@ public class ProjectService {
     }
 
     public ProjectDTO createProject(ProjectDTO projectDTO){
-        projectRepository.save(ProjectDTO.toEntity(projectDTO));
-        return projectDTO;
+        Project p = ProjectDTO.toEntity(projectDTO);
+        projectRepository.save(p);
+        return ProjectDTO.fromEntity(p);
     }
 
     public ProjectDTO updateProject(int id, ProjectDTO dto){
@@ -49,9 +50,8 @@ public class ProjectService {
     }
 
     public Map<Integer,Integer> getNumUncompletedTasks(){
-        List<Integer[]> l = projectRepository.getNumUncompletedTasks();
         Map<Integer, Integer> res = new LinkedHashMap<>();
-        for(Integer[] i : l){
+        for(Integer[] i : projectRepository.getNumUncompletedTasks()){
             res.put(i[0],i[1]);
         }
         return res;
@@ -59,9 +59,8 @@ public class ProjectService {
     }
 
     public List<ProjectDTO> getFilterProjects(String text){
-        List<Project> l = projectRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(text, text);
         List<ProjectDTO> res = new ArrayList<>();
-        for (Project p: l){
+        for (Project p: projectRepository.selectByText(text)){
             res.add(ProjectDTO.fromEntity(p));
         }
         return res;

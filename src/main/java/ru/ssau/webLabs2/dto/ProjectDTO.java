@@ -27,10 +27,6 @@ public class ProjectDTO {
         p.setStart_data(pr.getStart_data());
         p.setEnd_data(pr.getEnd_data());
         p.setProject_description(pr.getDescription());
-        List<TaskDTO>  tasks = new ArrayList<>();
-        p.setTasks(tasks);
-        for (Task task : pr.getTasks())
-            tasks.add(TaskDTO.fromEntity(task));
         return p;
 
     }

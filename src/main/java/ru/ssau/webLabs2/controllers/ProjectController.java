@@ -6,13 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ssau.webLabs2.dto.ProjectDTO;
-import ru.ssau.webLabs2.models.Project;
 import ru.ssau.webLabs2.services.ProjectService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/projects")
@@ -60,6 +54,7 @@ public class ProjectController {
 
     }
 
+    //получить список проектов с фильтрацией
     @GetMapping("/filter")
     public ResponseEntity<?> getProjectsFilter(@RequestParam("search") String text){
         return new ResponseEntity<>(projectService.getFilterProjects(text), HttpStatus.OK);

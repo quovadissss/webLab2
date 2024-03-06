@@ -46,16 +46,18 @@ public class TaskController {
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
-    //удаление задачи
+    //удаление задачи по id
     @DeleteMapping("/{pr_id}/tasks/{task_id}")
-    public void deleteTask(@PathVariable("pr_id") int pr_id, @PathVariable("task_id") int task_id){
+    public ResponseEntity<?> deleteTask(@PathVariable("pr_id") int pr_id, @PathVariable("task_id") int task_id){
         taskService.deleteTask(pr_id, task_id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //удаление завершенных задач
     @DeleteMapping("/{pr_id}/tasks")
-    public void deleteCompletedTasks(@PathVariable int pr_id){
+    public ResponseEntity<?> deleteCompletedTasks(@PathVariable int pr_id){
         taskService.deleteCompletedTasks(pr_id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
