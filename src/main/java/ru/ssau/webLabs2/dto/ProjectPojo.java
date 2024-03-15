@@ -10,17 +10,17 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ProjectDTO {
+public class ProjectPojo {
 
     private int pr_id;
     private String name_pr;
     private String project_description;
     private LocalDate start_data;
     private LocalDate end_data;
-    private List<TaskDTO> tasks;
+    private List<TaskPojo> tasks;
 
-    public static ProjectDTO fromEntity(Project pr){
-        ProjectDTO p = new ProjectDTO();
+    public static ProjectPojo fromEntity(Project pr){
+        ProjectPojo p = new ProjectPojo();
         p.setPr_id(pr.getId());
         p.setName_pr(pr.getName());
         p.setProject_description(pr.getDescription());
@@ -31,7 +31,7 @@ public class ProjectDTO {
 
     }
 
-    public static Project toEntity(ProjectDTO pr){
+    public static Project toEntity(ProjectPojo pr){
         Project p = new Project();
         p.setId(pr.getPr_id());
         p.setName(pr.getName_pr());

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.ssau.webLabs2.dto.ProjectDTO;
+import ru.ssau.webLabs2.dto.ProjectPojo;
 import ru.ssau.webLabs2.services.ProjectService;
 
 @RestController
@@ -22,21 +22,21 @@ public class ProjectController {
     //получение проекта по id
     @GetMapping("/{pr_id}")
     public ResponseEntity<?> getProjectById(@PathVariable("pr_id") int id){
-        ProjectDTO pr = projectService.getProjectById(id);
+        ProjectPojo pr = projectService.getProjectById(id);
         if(pr!=null) return new ResponseEntity<>(pr, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     //создание проекта
     @PostMapping
-    public ResponseEntity<?> createProject(@RequestBody ProjectDTO projectDTO){
-        ProjectDTO pr = projectService.createProject(projectDTO);
+    public ResponseEntity<?> createProject(@RequestBody ProjectPojo projectDTO){
+        ProjectPojo pr = projectService.createProject(projectDTO);
         return new ResponseEntity<>(pr, HttpStatus.CREATED);
     }
     //обновление проекта
     @PutMapping("/{pr_id}")
-    public ResponseEntity<?> updateProject(@PathVariable("pr_id") int id, @RequestBody ProjectDTO projectDTO){
-        ProjectDTO pr = projectService.updateProject(id, projectDTO);
+    public ResponseEntity<?> updateProject(@PathVariable("pr_id") int id, @RequestBody ProjectPojo projectDTO){
+        ProjectPojo pr = projectService.updateProject(id, projectDTO);
         if(pr!=null) return new ResponseEntity<>(pr, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -1,7 +1,7 @@
 package ru.ssau.webLabs2.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.ssau.webLabs2.dto.TaskDTO;
+import ru.ssau.webLabs2.dto.TaskPojo;
 import ru.ssau.webLabs2.models.Project;
 import ru.ssau.webLabs2.models.Task;
 import ru.ssau.webLabs2.repositories.ProjectRepository;
@@ -23,12 +23,12 @@ public class TaskService {
         this.projectRepository=projectRepository;
     }
 
-    public List<TaskDTO> getListTasks(int id){
+    public List<TaskPojo> getListTasks(int id){
         Optional<Project> project = projectRepository.findById(id);
         if(project.isPresent()){
-            List<TaskDTO> result = new ArrayList<>();
+            List<TaskPojo> result = new ArrayList<>();
             project.get().getTasks().forEach(task -> {
-                result.add(TaskDTO.fromEntity(task));
+                result.add(TaskPojo.fromEntity(task));
             });
             return result;
         }
@@ -37,34 +37,34 @@ public class TaskService {
         }
 
     }
-    public TaskDTO getTaskById(int pr_id, int task_id){
+    public TaskPojo getTaskById(int pr_id, int task_id){
         Optional<Project> project = projectRepository.findById(pr_id);
-        TaskDTO result = null;
+        TaskPojo result = null;
         if(project.isPresent()) {
             Task task = taskRepository.findAllByIdAndTaskID(project.get(), task_id);
             if(task!=null){
-                result = TaskDTO.fromEntity(task);
+                result = TaskPojo.fromEntity(task);
             }
         }
         return result;
     }
 
-    public TaskDTO add(TaskDTO task_dto, int id){
+    public TaskPojo add(TaskPojo task_dto, int id){
         Optional<Project> project = projectRepository.findById(id);
-        TaskDTO result = null;
+        TaskPojo result = null;
         if(project.isPresent()){
-            Task t = TaskDTO.toEntity(task_dto);
+            Task t = TaskPojo.toEntity(task_dto);
             t.setId(project.get());
             taskRepository.save(t);
-            result = TaskDTO.fromEntity(t);
+            result = TaskPojo.fromEntity(t);
         }
         return result;
     }
 
 
-    public TaskDTO update(TaskDTO task, int pr_id, int task_id){
+    public TaskPojo update(TaskPojo task, int pr_id, int task_id){
         Optional<Project> project = projectRepository.findById(pr_id);
-        TaskDTO result = null;
+        TaskPojo result = null;
         if(project.isPresent()) {
             Task t = taskRepository.findAllByIdAndTaskID(project.get(), task_id);
             if (t != null) {
@@ -73,7 +73,7 @@ public class TaskService {
                 t.setPlan_com_date(task.getPlan_com_date());
                 t.setFlag(task.isFlag_t());
                 taskRepository.save(t);
-                result = TaskDTO.fromEntity(t);
+                result = TaskPojo.fromEntity(t);
             }
         }
         return result;

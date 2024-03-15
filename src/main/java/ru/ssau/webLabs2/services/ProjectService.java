@@ -2,7 +2,7 @@ package ru.ssau.webLabs2.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.ssau.webLabs2.dto.ProjectDTO;
+import ru.ssau.webLabs2.dto.ProjectPojo;
 import ru.ssau.webLabs2.models.Project;
 import ru.ssau.webLabs2.repositories.ProjectRepository;
 
@@ -18,29 +18,29 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public ProjectDTO getProjectById(int pr_id){
+    public ProjectPojo getProjectById(int pr_id){
         Optional<Project> pr = projectRepository.findById(pr_id);
         if(pr.isPresent()){
-            return ProjectDTO.fromEntity(pr.get());
+            return ProjectPojo.fromEntity(pr.get());
         }
         else return null;
     }
 
-    public ProjectDTO createProject(ProjectDTO projectDTO){
-        Project p = ProjectDTO.toEntity(projectDTO);
+    public ProjectPojo createProject(ProjectPojo projectDTO){
+        Project p = ProjectPojo.toEntity(projectDTO);
         projectRepository.save(p);
-        return ProjectDTO.fromEntity(p);
+        return ProjectPojo.fromEntity(p);
     }
 
-    public ProjectDTO updateProject(int id, ProjectDTO dto){
+    public ProjectPojo updateProject(int id, ProjectPojo dto){
         Optional<Project> pr = projectRepository.findById(id);
         if(pr.isPresent()){
-            Project p = ProjectDTO.toEntity(dto);
+            Project p = ProjectPojo.toEntity(dto);
             pr.get().setName(p.getName());
             pr.get().setDescription(p.getDescription());
             pr.get().setEnd_data(p.getEnd_data());
             pr.get().setStart_data(p.getStart_data());
-            return ProjectDTO.fromEntity(projectRepository.save(pr.get()));
+            return ProjectPojo.fromEntity(projectRepository.save(pr.get()));
         }
         else return null;
     }
@@ -58,10 +58,10 @@ public class ProjectService {
 
     }
 
-    public List<ProjectDTO> getFilterProjects(String text){
-        List<ProjectDTO> res = new ArrayList<>();
+    public List<ProjectPojo> getFilterProjects(String text){
+        List<ProjectPojo> res = new ArrayList<>();
         for (Project p: projectRepository.selectByText(text)){
-            res.add(ProjectDTO.fromEntity(p));
+            res.add(ProjectPojo.fromEntity(p));
         }
         return res;
     }
