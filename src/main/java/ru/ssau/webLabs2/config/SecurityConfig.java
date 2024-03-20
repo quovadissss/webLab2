@@ -4,11 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -36,16 +32,19 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
        return http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "/projects/**").hasRole(roles.get(1))
-                        .requestMatchers(HttpMethod.PUT, "/projects/**").hasRole(roles.get(1))
-                        .requestMatchers(HttpMethod.DELETE, "/projects/**").hasRole(roles.get(1))
+                        .requestMatchers(HttpMethod.POST, "/projects").hasRole(roles.get(1))
+                        .requestMatchers(HttpMethod.PUT, "/projects/*").hasRole(roles.get(1))
+                        .requestMatchers(HttpMethod.DELETE, "/projects/*").hasRole(roles.get(1))
                         .anyRequest().authenticated()
                 )
                .httpBasic(Customizer.withDefaults())
-               .csrf(AbstractHttpConfigurer::disable)
+               .formLogin((form) -> form
+                       .defaultSuccessUrl("/projects.html", true)
+                       .permitAll()
+               )
                .build();
-
     }
 
     @Bean
